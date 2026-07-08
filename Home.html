@@ -3,58 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gup Shup Home</title>
+    <title>GupShup App</title>
     <style>
-        body { margin: 0; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; background-color: #f9f9f9; }
-        
-        /* Top Header Styling */
-        .top-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: white; border-bottom: 1px solid #ddd; }
-        
-        /* Search Bar Styling */
-        .search-container { flex-grow: 1; margin: 0 10px; }
-        .search-container input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 20px; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: sans-serif; background-color: #f0f2f5; display: flex; flex-direction: column; height: 100vh; }
 
-        /* Main Content Area */
-        .content { flex: 1; padding: 20px; text-align: center; overflow-y: auto; padding-bottom: 80px; }
+        /* Header Styling */
+        .top-header { display: flex; align-items: center; padding: 10px; background: white; border-bottom: 1px solid #ddd; height: 50px; }
+        .app-name { font-weight: bold; font-size: 18px; margin-right: 10px; }
+        .search-wrapper { flex: 1; display: flex; background: #eee; border-radius: 20px; overflow: hidden; height: 35px; }
+        .search-wrapper input { flex: 1; border: none; padding: 0 10px; background: transparent; outline: none; }
+        .search-btn { background: #007bff; color: white; border: none; padding: 0 12px; cursor: pointer; display: flex; align-items: center; }
+        .msg-icon { margin-left: 10px; cursor: pointer; font-size: 20px; }
 
-        /* Bottom Navigation Bar */
-        .nav-bar { display: flex; justify-content: space-around; padding: 10px; background: white; border-top: 1px solid #ddd; position: fixed; bottom: 0; width: 100%; }
-        .nav-item { border: none; background: none; cursor: pointer; text-align: center; font-size: 12px; }
+        /* Stories Section */
+        .stories-bar { display: flex; padding: 10px; background: white; gap: 10px; border-bottom: 1px solid #ddd; overflow-x: auto; }
+        .story { text-align: center; position: relative; flex-shrink: 0; }
+        .story-img { width: 60px; height: 60px; border-radius: 50%; background: #ccc; border: 2px solid #fff; }
+        .add-btn { position: absolute; bottom: 0; right: 0; background: #007bff; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 15px; border: 2px solid #fff; }
+
+        /* Dynamic Post Area */
+        .main-content { flex: 1; overflow-y: auto; padding-bottom: 70px; }
+        .post { background: white; margin-bottom: 10px; padding: 10px; }
+        .user-name { font-weight: bold; margin-bottom: 5px; }
+        .post-img { width: 100%; min-height: 250px; background: #ddd; border-radius: 8px; object-fit: cover; }
+
+        /* Navigation */
+        .nav-bar { display: flex; justify-content: space-around; padding: 10px; background: white; border-top: 1px solid #ddd; height: 60px; position: fixed; bottom: 0; width: 100%; }
+        .nav-item { border: none; background: none; cursor: pointer; text-align: center; font-size: 10px; color: #555; }
     </style>
 </head>
 <body>
 
-    <!-- Header Section -->
     <div class="top-header">
-        <div id="userName" style="font-weight: bold; font-size: 20px;">उपयोगकर्ता</div>
-        
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search..." onkeypress="handleSearch(event)">
+        <div class="app-name">GupShup</div>
+        <div class="search-wrapper">
+            <input type="text" id="search" placeholder="Search...">
+            <button class="search-btn" onclick="search()">🔍</button>
         </div>
-        
-        <div onclick="alert('Message box clicked')">💬</div>
+        <div class="msg-icon">💬</div>
     </div>
 
-    <!-- Main Content -->
-    <div class="content">
-        <p>Welcome to Gup Shup!</p>
-    </div>
+    <div class="stories-bar">
+        <div class="story">
+            <div class="story-img"></div>
+            <div class="add-btn">+</div>
+            <div style="font-size: 10px;">You</div>
+        </div>
+        </div>
 
-    <!-- Navigation Bar -->
+    <div class="main-content" id="feed">
+        </div>
+
     <div class="nav-bar">
         <button class="nav-item" onclick="location.href='home.html'">🏠<br>Home</button>
-        <button class="nav-item" onclick="alert('Shorts Clicked')">⚡<br>Shorts</button>
-        <button class="nav-item" onclick="alert('Create Clicked')">➕<br>Create</button>
-        <button class="nav-item" onclick="alert('Profile Clicked')">👤<br>Profile</button>
+        <button class="nav-item" onclick="location.href='shorts.html'">⚡<br>Shorts</button>
+        <button class="nav-item" onclick="location.href='create.html'">➕<br>Create</button>
+        <button class="nav-item" onclick="location.href='profile.html'">👤<br>Profile</button>
     </div>
 
     <script>
-        // Search Function Logic
-        function handleSearch(event) {
-            if (event.key === 'Enter') {
-                const query = document.getElementById('searchInput').value;
-                alert("Searching for: " + query);
-            }
+        function search() {
+            const query = document.getElementById('search').value;
+            if (query) window.location.href = 'search.html?q=' + encodeURIComponent(query);
         }
     </script>
 </body>
