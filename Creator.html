@@ -1,69 +1,86 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GupShup Creator</title>
     <style>
-        body { margin: 0; font-family: sans-serif; height: 100vh; display: flex; flex-direction: column; background: #000; }
-        #camera-section { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; }
-        #video, #canvas { width: 100%; height: 100%; object-fit: cover; }
-        #canvas { display: none; } /* यह फोटो कैप्चर होने के बाद दिखेगा */
+        body { margin: 0; font-family: sans-serif; height: 100vh; display: flex; flex-direction: column; background: #f0f2f5; }
+        #camera-section { flex: 1; background: #000; display: flex; align-items: center; justify-content: center; }
+        #video { width: 100%; height: 100%; object-fit: cover; }
         .controls { padding: 20px; background: white; display: flex; justify-content: space-around; }
-        button { padding: 15px; border-radius: 50px; border: none; background: #007bff; color: white; cursor: pointer; }
+        button { padding: 15px 25px; border-radius: 8px; border: none; background: #007bff; color: white; cursor: pointer; font-weight: bold; }
+        #fileInput { display: none; }
     </style>
 </head>
 <body>
 
     <div id="camera-section">
         <video id="video" autoplay playsinline></video>
-        <canvas id="canvas"></canvas>
     </div>
 
     <div class="controls">
-        <button onclick="capturePhoto()">📷 Capture</button>
+        <button onclick="startCamera()">📷 Camera</button>
+        <button onclick="document.getElementById('fileInput').click()">🖼️ Gallery</button>
+        <input type="file" id="fileInput" accept="image/*">
         <button onclick="sendPost()" style="background: #28a745;">🚀 Send</button>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
 
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
-        
-        // Firebase Config (यहाँ अपनी कीज जरूर डालें)
-        const firebaseConfig = { apiKey: "...", projectId: "...", ... };
-        const db = getFirestore(initializeApp(firebaseConfig));
-
-        // 1. Camera Start
-        async function startCamera() {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            video.srcObject = stream;
-        }
-        startCamera();
-
-        // 2. Photo Capture Function
-        window.capturePhoto = () => {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0);
-            video.style.display = 'none'; // वीडियो छुपाएं
-            canvas.style.display = 'block'; // फोटो दिखाएं
+        const firebaseConfig = {
+            apiKey: "AIzaSyAsyouU408rqDSJJDQjvxFNur7d65JH5pw",
+            authDomain: "gupshup-b77df.firebaseapp.com",
+            projectId: "gupshup-b77df",
+            storageBucket: "gupshup-b77df.firebasestorage.app",
+            messagingSenderId: "28255695821",
+            appId: "1:28255695821:web:02a4ce1d86e9bae5360a84"
         };
 
-        // 3. Send/Upload Function
-        window.sendPost = async () => {
-            const imageData = canvas.toDataURL('image/png'); // फोटो को डेटा में बदलें
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // Camera access
+        async function startCamera() {
             try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                document.getElementById('video').srcObject = stream;
+            } catch (err) { alert("Camera access denied!"); }
+        }
+        window.startCamera = startCamera;
+        startCamera();
+
+        // Send post
+        window.sendPost = async () => {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert("Please select a photo from gallery!");
+                return;
+            }
+
+            try {
+                const storageRef = ref(storage, 'posts/' + Date.now() + '.jpg');
+                await uploadBytes(storageRef, file);
+                const imageUrl = await getDownloadURL(storageRef);
+
                 await addDoc(collection(db, "posts"), {
                     username: "User",
-                    imageUrl: imageData, // यह फोटो का डेटा है
+                    imageUrl: imageUrl,
                     timestamp: new Date()
                 });
-                alert("Post Sent!");
+
+                alert("Post shared successfully!");
                 window.location.href = "Home.html";
-            } catch (e) { alert("Error sending!"); }
+            } catch (e) {
+                console.error(e);
+                alert("Error! Check Firebase Storage rules.");
+            }
         };
     </script>
 </body>
