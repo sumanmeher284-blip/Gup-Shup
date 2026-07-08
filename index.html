@@ -16,6 +16,7 @@
 
     <h1>Welcome to Gup Shup</h1>
     
+    <input type="text" id="name" placeholder="Enter Your Name">
     <input type="email" id="email" placeholder="Email">
     <input type="password" id="password" placeholder="Password">
     
@@ -27,18 +28,38 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAsyouU4O8rqDSJJDQjvxFNur7d65JH5pw",
             authDomain: "gupshup-b77df.firebaseapp.com",
             projectId: "gupshup-b77df",
-            storageBucket: "gupshup-b77df.appspot.com",
+            storageBucket: "gupshup-b77df.firebasestorage.app",
             messagingSenderId: "28255695821",
-            appId: "1:28255695821:web:56d57b66670fedcf360a84"
+            appId: "1:28255695821:web:02a4ce1d86e9bae5360a84",
+            measurementId: "G-S0RTEXJ8YT"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Sign Up Logic
+        document.getElementById("signupBtn").addEventListener("click", async () => {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                // डेटाबेस में नाम सेव करना
+                await setDoc(doc(db, "users", userCredential.user.uid), {
+                    name: name,
+                    email: email
+                });
+                alert("Account Created! You can now login.");
+            } catch (error) { alert("Error: " + error.message); }
+        });
 
         // Login Logic
         document.getElementById("loginBtn").addEventListener("click", () => {
@@ -46,15 +67,6 @@
             const password = document.getElementById("password").value;
             signInWithEmailAndPassword(auth, email, password)
                 .then(() => { alert("Login Successful!"); window.location.href = "Home.html"; })
-                .catch((error) => alert("Error: " + error.message));
-        });
-
-        // Sign Up Logic
-        document.getElementById("signupBtn").addEventListener("click", () => {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            createUserWithEmailAndPassword(auth, email, password)
-                .then(() => alert("Account Created! Please Login."))
                 .catch((error) => alert("Error: " + error.message));
         });
     </script>
