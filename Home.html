@@ -14,16 +14,13 @@
     </style>
 </head>
 <body>
-
     <div class="top-header">
         <div id="userName">Loading...</div>
         <div>💬</div>
     </div>
-
     <div class="content">
         <p>Welcome to Gup Shup!</p>
     </div>
-
     <div class="nav-bar">
         <button class="nav-item">🏠<br>Home</button>
         <button class="nav-item">⚡<br>Shorts</button>
@@ -45,11 +42,9 @@
             appId: "1:28255695821:web:02a4ce1d86e9bae5360a84",
             measurementId: "G-S0RTEXJ8YT"
         };
-
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const docRef = doc(db, "users", user.uid);
