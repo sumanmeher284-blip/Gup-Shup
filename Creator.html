@@ -3,91 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creator Interface</title>
+    <title>GupShup Creator</title>
     <style>
-        body, html { 
-            margin: 0; 
-            padding: 0; 
-            height: 100%; 
-            font-family: sans-serif; 
-            overflow: hidden;
-        }
-        #creator-container { 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-        }
+        body { margin: 0; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; background: #f0f2f5; }
         
-        /* Camera Section - Takes up the top half */
-        #camera-section { 
-            flex: 1; 
-            background: #000; 
-            position: relative; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        #video { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-        }
+        /* Camera Preview */
+        #camera-section { flex: 1; background: #000; display: flex; align-items: center; justify-content: center; position: relative; }
+        #video { width: 100%; height: 100%; object-fit: cover; }
         
-        /* Gallery Section - Takes up the bottom half */
-        #gallery-section { 
-            flex: 1; 
-            overflow-y: auto; 
-            padding: 10px; 
-            background: #f4f4f4; 
-        }
-        #gallery-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 5px; 
-        }
-        .gallery-item { 
-            width: 100%; 
-            aspect-ratio: 1 / 1; 
-            background: #ccc; 
-            border-radius: 4px; 
-        }
+        /* Buttons Area */
+        .controls { padding: 20px; background: white; display: flex; justify-content: space-around; border-top: 1px solid #ddd; }
+        button { padding: 12px 20px; border-radius: 8px; border: none; background: #007bff; color: white; cursor: pointer; font-weight: bold; }
+        input[type="file"] { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="creator-container">
-        <!-- Camera Section -->
-        <div id="camera-section">
-            <video id="video" autoplay playsinline></video>
-        </div>
-
-        <!-- Gallery Section -->
-        <div id="gallery-section">
-            <h3 style="margin-top: 0;">Your Gallery</h3>
-            <div id="gallery-grid">
-                <!-- Gallery placeholders -->
-                <div class="gallery-item"></div>
-                <div class="gallery-item"></div>
-                <div class="gallery-item"></div>
-                <div class="gallery-item"></div>
-            </div>
-        </div>
+    <div id="camera-section">
+        <video id="video" autoplay playsinline></video>
     </div>
 
-    <script>
-        // Function to start the camera
+    <div class="controls">
+        <!-- Camera Button -->
+        <button onclick="startCamera()">📷 Camera</button>
+        
+        <!-- Gallery Button -->
+        <button onclick="document.getElementById('fileInput').click()">🖼️ Gallery</button>
+        <input type="file" id="fileInput" accept="image/*">
+        
+        <!-- Send/Upload Button -->
+        <button onclick="sendPost()" style="background: #28a745;">🚀 Send</button>
+    </div>
+
+    <script type="module">
+        // Firebase Setup (अपनी config यहाँ डालें)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            projectId: "YOUR_PROJECT_ID"
+            // बाकी कॉन्फ़िगरेशन जोड़ें
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Camera Function
         async function startCamera() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                const videoElement = document.getElementById('video');
-                videoElement.srcObject = stream;
-            } catch (err) {
-                console.error("Camera access denied or not available: ", err);
-            }
+                document.getElementById('video').srcObject = stream;
+            } catch (err) { alert("Camera access denied!"); }
         }
-
-        // Initialize camera when the page loads
+        window.startCamera = startCamera;
         startCamera();
+
+        // Send Post Function
+        window.sendPost = async function() {
+            try {
+                await addDoc(collection(db, "posts"), {
+                    username: "User",
+                    imageUrl: "https://via.placeholder.com/300", // यहाँ इमेज URL लॉजिक आएगा
+                    timestamp: new Date()
+                });
+                alert("Post Sent Successfully!");
+                window.location.href = "Home.html"; // पोस्ट के बाद होम पर भेजें
+            } catch (e) { alert("Error sending post!"); }
+        }
     </script>
 </body>
 </html>
