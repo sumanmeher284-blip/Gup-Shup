@@ -5,72 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GupShup Creator</title>
     <style>
-        body { margin: 0; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; background: #f0f2f5; }
-        
-        /* Camera Preview */
-        #camera-section { flex: 1; background: #000; display: flex; align-items: center; justify-content: center; position: relative; }
-        #video { width: 100%; height: 100%; object-fit: cover; }
-        
-        /* Buttons Area */
-        .controls { padding: 20px; background: white; display: flex; justify-content: space-around; border-top: 1px solid #ddd; }
-        button { padding: 12px 20px; border-radius: 8px; border: none; background: #007bff; color: white; cursor: pointer; font-weight: bold; }
-        input[type="file"] { display: none; }
+        body { margin: 0; font-family: sans-serif; height: 100vh; display: flex; flex-direction: column; background: #000; }
+        #camera-section { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; }
+        #video, #canvas { width: 100%; height: 100%; object-fit: cover; }
+        #canvas { display: none; } /* यह फोटो कैप्चर होने के बाद दिखेगा */
+        .controls { padding: 20px; background: white; display: flex; justify-content: space-around; }
+        button { padding: 15px; border-radius: 50px; border: none; background: #007bff; color: white; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="camera-section">
         <video id="video" autoplay playsinline></video>
+        <canvas id="canvas"></canvas>
     </div>
 
     <div class="controls">
-        <!-- Camera Button -->
-        <button onclick="startCamera()">📷 Camera</button>
-        
-        <!-- Gallery Button -->
-        <button onclick="document.getElementById('fileInput').click()">🖼️ Gallery</button>
-        <input type="file" id="fileInput" accept="image/*">
-        
-        <!-- Send/Upload Button -->
+        <button onclick="capturePhoto()">📷 Capture</button>
         <button onclick="sendPost()" style="background: #28a745;">🚀 Send</button>
     </div>
 
     <script type="module">
-        // Firebase Setup (अपनी config यहाँ डालें)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            projectId: "YOUR_PROJECT_ID"
-            // बाकी कॉन्फ़िगरेशन जोड़ें
-        };
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        
+        // Firebase Config (यहाँ अपनी कीज जरूर डालें)
+        const firebaseConfig = { apiKey: "...", projectId: "...", ... };
+        const db = getFirestore(initializeApp(firebaseConfig));
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Camera Function
+        // 1. Camera Start
         async function startCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                document.getElementById('video').srcObject = stream;
-            } catch (err) { alert("Camera access denied!"); }
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
         }
-        window.startCamera = startCamera;
         startCamera();
 
-        // Send Post Function
-        window.sendPost = async function() {
+        // 2. Photo Capture Function
+        window.capturePhoto = () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            video.style.display = 'none'; // वीडियो छुपाएं
+            canvas.style.display = 'block'; // फोटो दिखाएं
+        };
+
+        // 3. Send/Upload Function
+        window.sendPost = async () => {
+            const imageData = canvas.toDataURL('image/png'); // फोटो को डेटा में बदलें
             try {
                 await addDoc(collection(db, "posts"), {
                     username: "User",
-                    imageUrl: "https://via.placeholder.com/300", // यहाँ इमेज URL लॉजिक आएगा
+                    imageUrl: imageData, // यह फोटो का डेटा है
                     timestamp: new Date()
                 });
-                alert("Post Sent Successfully!");
-                window.location.href = "Home.html"; // पोस्ट के बाद होम पर भेजें
-            } catch (e) { alert("Error sending post!"); }
-        }
+                alert("Post Sent!");
+                window.location.href = "Home.html";
+            } catch (e) { alert("Error sending!"); }
+        };
     </script>
 </body>
 </html>
