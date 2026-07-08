@@ -6,31 +6,29 @@
     <title>Gup Shup Home</title>
     <style>
         body { margin: 0; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; background-color: #ffffff; }
-        .top-header { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; justify-content: space-between; }
-        .app-name { font-weight: bold; font-size: 20px; color: #ff4500; }
-        .search-bar { flex: 1; margin: 0 20px; padding: 8px; border: 1px solid #ccc; border-radius: 20px; }
-        .content { flex: 1; padding: 20px; overflow-y: auto; text-align: center; }
-        .nav-bar { display: flex; justify-content: space-around; padding: 10px; border-top: 1px solid #ddd; background: white; }
-        .nav-item { text-align: center; font-size: 12px; cursor: pointer; border: none; background: none; }
+        .top-header { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #ddd; justify-content: space-between; }
+        #userName { font-weight: bold; font-size: 22px; color: #ff4500; }
+        .content { flex: 1; padding: 20px; text-align: center; }
+        .nav-bar { display: flex; justify-content: space-around; padding: 15px; border-top: 1px solid #ddd; background: white; }
+        .nav-item { text-align: center; font-size: 14px; cursor: pointer; border: none; background: none; }
     </style>
 </head>
 <body>
 
     <div class="top-header">
-        <div class="app-name" id="userName">Loading...</div>
-        <input type="text" class="search-bar" placeholder="Search...">
-        <div class="msg-icon" onclick="window.location.href='test.html'">💬</div>
+        <div id="userName">Loading...</div>
+        <div>💬</div>
     </div>
 
     <div class="content">
-        <p>Your posts will appear here...</p>
+        <p>Welcome to Gup Shup!</p>
     </div>
 
     <div class="nav-bar">
-        <button class="nav-item" onclick="window.location.href='Home.html'">🏠<br>Home</button>
-        <button class="nav-item" onclick="window.location.href='Reels.html'">⚡<br>Shorts</button>
-        <button class="nav-item" onclick="window.location.href='creator.html'">➕<br>Create</button>
-        <button class="nav-item" onclick="window.location.href='Profile.html'">👤<br>Profile</button>
+        <button class="nav-item">🏠<br>Home</button>
+        <button class="nav-item">⚡<br>Shorts</button>
+        <button class="nav-item">➕<br>Create</button>
+        <button class="nav-item">👤<br>Profile</button>
     </div>
 
     <script type="module">
@@ -58,6 +56,8 @@
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     document.getElementById("userName").innerText = docSnap.data().name;
+                } else {
+                    document.getElementById("userName").innerText = "User";
                 }
             } else {
                 window.location.href = "index.html";
