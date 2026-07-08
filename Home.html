@@ -8,7 +8,7 @@
         * { box-sizing: border-box; }
         body { margin: 0; font-family: sans-serif; background-color: #f0f2f5; display: flex; flex-direction: column; height: 100vh; }
 
-        /* Header Styling */
+        /* Header Layout */
         .top-header { display: flex; align-items: center; padding: 10px; background: white; border-bottom: 1px solid #ddd; height: 50px; }
         .app-name { font-weight: bold; font-size: 18px; margin-right: 10px; }
         .search-wrapper { flex: 1; display: flex; background: #eee; border-radius: 20px; overflow: hidden; height: 35px; }
@@ -20,15 +20,12 @@
         .stories-bar { display: flex; padding: 10px; background: white; gap: 10px; border-bottom: 1px solid #ddd; overflow-x: auto; }
         .story { text-align: center; position: relative; flex-shrink: 0; }
         .story-img { width: 60px; height: 60px; border-radius: 50%; background: #ccc; border: 2px solid #fff; }
-        .add-btn { position: absolute; bottom: 0; right: 0; background: #007bff; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 15px; border: 2px solid #fff; }
+        .add-btn { position: absolute; bottom: 0; right: 0; background: #007bff; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 15px; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; }
 
-        /* Dynamic Post Area */
+        /* Feed Styling */
         .main-content { flex: 1; overflow-y: auto; padding-bottom: 70px; }
-        .post { background: white; margin-bottom: 10px; padding: 10px; }
-        .user-name { font-weight: bold; margin-bottom: 5px; }
-        .post-img { width: 100%; min-height: 250px; background: #ddd; border-radius: 8px; object-fit: cover; }
 
-        /* Navigation */
+        /* Bottom Nav Styling */
         .nav-bar { display: flex; justify-content: space-around; padding: 10px; background: white; border-top: 1px solid #ddd; height: 60px; position: fixed; bottom: 0; width: 100%; }
         .nav-item { border: none; background: none; cursor: pointer; text-align: center; font-size: 10px; color: #555; }
     </style>
@@ -41,7 +38,7 @@
             <input type="text" id="search" placeholder="Search...">
             <button class="search-btn" onclick="search()">🔍</button>
         </div>
-        <div class="msg-icon">💬</div>
+        <div class="msg-icon" onclick="window.location.href='Sms1.html'">💬</div>
     </div>
 
     <div class="stories-bar">
@@ -50,16 +47,16 @@
             <div class="add-btn">+</div>
             <div style="font-size: 10px;">You</div>
         </div>
-        </div>
+    </div>
 
     <div class="main-content" id="feed">
         </div>
 
     <div class="nav-bar">
-        <button class="nav-item" onclick="location.href='Home.html'">🏠<br>Home</button>
-        <button class="nav-item" onclick="location.href='Reels.html'">⚡<br>Shorts</button>
-        <button class="nav-item" onclick="location.href='Create.html'">➕<br>Create</button>
-        <button class="nav-item" onclick="location.href='Profile.html'">👤<br>Profile</button>
+        <button class="nav-item" onclick="window.location.href='Home.html'">🏠<br>Home</button>
+        <button class="nav-item" onclick="window.location.href='Reels.htm'">⚡<br>Shorts</button>
+        <button class="nav-item" onclick="window.location.href='Creator.html'">➕<br>Create</button>
+        <button class="nav-item" onclick="window.location.href='Profile.html'">👤<br>Profile</button>
     </div>
 
     <script>
