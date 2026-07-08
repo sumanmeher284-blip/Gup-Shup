@@ -1,0 +1,48 @@
+
+<html lang="en">
+<head>
+    <style>
+        body { margin: 0; font-family: sans-serif; background: #f9f9f9; }
+        .chat-header { padding: 15px; background: white; border-bottom: 1px solid #ddd; font-weight: bold; }
+        
+        /* यूजर लिस्ट स्टाइल */
+        .user-item { 
+            display: flex; 
+            align-items: center; 
+            padding: 15px; 
+            background: white; 
+            border-bottom: 1px solid #eee; 
+            cursor: pointer; 
+        }
+        .profile-pic { 
+            width: 50px; 
+            height: 50px; 
+            background: #ccc; 
+            border-radius: 50%; 
+            margin-right: 15px; 
+        }
+        .username { font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="chat-header">Messages</div>
+
+    <div class="user-item" onclick="openChat('User1')">
+        <div class="profile-pic"></div>
+        <div class="username">John Doe</div>
+    </div>
+
+    <div class="user-item" onclick="openChat('User2')">
+        <div class="profile-pic"></div>
+        <div class="username">Jane Smith</div>
+    </div>
+
+    <script>
+        function openChat(username) {
+            // यहाँ हम चैट पेज पर रीडायरेक्ट करेंगे
+    window.location.href = "Sms.html?user=" + username;        
+        }
+    </script>
+</body>
+</html>

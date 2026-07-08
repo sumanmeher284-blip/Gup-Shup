@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Interface</title>
+    <style>
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            height: 100%; 
+            font-family: sans-serif; 
+            overflow: hidden;
+        }
+        #creator-container { 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        
+        /* Camera Section - Takes up the top half */
+        #camera-section { 
+            flex: 1; 
+            background: #000; 
+            position: relative; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #video { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
+        
+        /* Gallery Section - Takes up the bottom half */
+        #gallery-section { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 10px; 
+            background: #f4f4f4; 
+        }
+        #gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 5px; 
+        }
+        .gallery-item { 
+            width: 100%; 
+            aspect-ratio: 1 / 1; 
+            background: #ccc; 
+            border-radius: 4px; 
+        }
+    </style>
+</head>
+<body>
+
+    <div id="creator-container">
+        <!-- Camera Section -->
+        <div id="camera-section">
+            <video id="video" autoplay playsinline></video>
+        </div>
+
+        <!-- Gallery Section -->
+        <div id="gallery-section">
+            <h3 style="margin-top: 0;">Your Gallery</h3>
+            <div id="gallery-grid">
+                <!-- Gallery placeholders -->
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to start the camera
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const videoElement = document.getElementById('video');
+                videoElement.srcObject = stream;
+            } catch (err) {
+                console.error("Camera access denied or not available: ", err);
+            }
+        }
+
+        // Initialize camera when the page loads
+        startCamera();
+    </script>
+</body>
+</html>

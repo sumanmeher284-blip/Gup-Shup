@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gup Shup Login</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin: 0; background-color: #ffffff; height: 100vh; }
+        h1 { margin-top: 50px; margin-bottom: 30px; font-size: 24px; }
+        input { width: 90%; max-width: 350px; padding: 15px; margin: 8px 0; border: 1px solid #ccc; border-radius: 25px; box-sizing: border-box; }
+        .button-container { display: flex; justify-content: center; gap: 15px; margin-top: 20px; width: 100%; }
+        button { padding: 12px 30px; border: none; border-radius: 25px; background-color: #007bff; color: white; font-weight: bold; cursor: pointer; flex: 1; max-width: 150px; }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Gup Shup</h1>
+    
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    
+    <div class="button-container">
+        <button id="loginBtn">Login</button>
+        <button id="signupBtn">Sign Up</button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAsyouU4O8rqDSJJDQjvxFNur7d65JH5pw",
+            authDomain: "gupshup-b77df.firebaseapp.com",
+            projectId: "gupshup-b77df",
+            storageBucket: "gupshup-b77df.appspot.com",
+            messagingSenderId: "28255695821",
+            appId: "1:28255695821:web:56d57b66670fedcf360a84"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Login Logic
+        document.getElementById("loginBtn").addEventListener("click", () => {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => { alert("Login Successful!"); window.location.href = "Home.html"; })
+                .catch((error) => alert("Error: " + error.message));
+        });
+
+        // Sign Up Logic
+        document.getElementById("signupBtn").addEventListener("click", () => {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(() => alert("Account Created! Please Login."))
+                .catch((error) => alert("Error: " + error.message));
+        });
+    </script>
+</body>
+</html>

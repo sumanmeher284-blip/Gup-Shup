@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gup Shup Home</title>
+    <style>
+        body { margin: 0; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; background-color: #fff; }
+        
+        /* Top Header */
+        .top-header { display: flex; align-items: center; padding: 10px; gap: 10px; border-bottom: 1px solid #ddd; }
+        .app-name { font-weight: bold; font-size: 20px; color: #ff4500; white-space: nowrap; }
+        .search-bar { flex: 1; padding: 8px; border-radius: 20px; border: 1px solid #ccc; }
+        .msg-icon { font-size: 24px; cursor: pointer; }
+
+        /* Story Section */
+        .story-container { display: flex; padding: 10px; gap: 10px; overflow-x: auto; background: #f9f9f9; }
+        .story { width: 60px; height: 60px; border-radius: 50%; background: #ccc; flex-shrink: 0; border: 2px solid #ff4500; }
+
+        /* Main Content */
+        .content { flex: 1; padding: 20px; overflow-y: auto; }
+
+        /* Bottom Navigation */
+        .nav-bar { display: flex; justify-content: space-around; padding: 10px; border-top: 1px solid #ddd; background: white; }
+        .nav-item { text-align: center; font-size: 12px; cursor: pointer; border: none; background: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="top-header">
+        <div class="app-name">Gup Shup</div>
+        <input type="text" class="search-bar" placeholder="Search...">
+        <!-- Message Icon triggers messages.html -->
+        <div class="msg-icon" onclick="window.location.href='Sms1.html'">📩</div>
+    </div>
+
+    <!-- Stories -->
+    <div class="story-container">
+        <div class="story"></div>
+        <div class="story"></div>
+        <div class="story"></div>
+        <div class="story"></div>
+        <div class="story"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <p>Your posts will appear here...</p>
+    </div>
+    <!-- Bottom Navigation -->
+    <div class="nav-bar">
+        <button class="nav-item" onclick="window.location.href='Home.html'">🏠<br>Home</button>
+        <button class="nav-item" onclick="window.location.href='Reels.html'">⚡<br>Shorts</button>
+        <button class="nav-item" onclick="window.location.href='Creator.html'">➕<br>Create</button>
+        <button class="nav-item" onclick="window.location.href='Profile.html'">👤<br>Profile</button>
+    </div>
+</body>
+</html>

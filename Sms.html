@@ -1,0 +1,62 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <style>
+        body { margin: 0; font-family: sans-serif; background-color: #f0f2f5; }
+        
+        /* Header */
+        .header { background: white; padding: 15px; border-bottom: 1px solid #ddd; position: sticky; top: 0; }
+        
+        /* Chat Area */
+        .chat-container { padding: 15px; height: 75vh; overflow-y: auto; display: flex; flex-direction: column; }
+        
+        /* Message Bubbles */
+        .message { padding: 10px 15px; margin: 5px; border-radius: 20px; max-width: 70%; }
+        .my-message { align-self: flex-end; background-color: #0084ff; color: white; }
+        .friend-message { align-self: flex-start; background-color: #e4e6eb; color: black; }
+        
+        /* Input Area */
+        .footer { position: fixed; bottom: 0; width: 100%; padding: 10px; background: white; display: flex; border-top: 1px solid #ddd; }
+        input { flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ccc; outline: none; }
+        button { margin-left: 10px; padding: 10px 20px; border-radius: 20px; border: none; background: #0084ff; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="header"><strong>Chat with Friend</strong></div>
+
+    <div class="chat-container" id="chatBox">
+        <div class="message friend-message">Hello! How is the project going?</div>
+        <div class="message my-message">It's going great! Almost done.</div>
+    </div>
+
+    <div class="footer">
+        <input type="text" id="msgInput" placeholder="Type a message..." onkeypress="playTypingSound()">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        function playTypingSound() {
+            // यहाँ अपनी साउंड फाइल का पाथ दें
+            const audio = new Audio('typing.mp3'); 
+            audio.play().catch(e => console.log("Sound blocked by browser"));
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('msgInput');
+            const chatBox = document.getElementById('chatBox');
+            if (input.value.trim() !== "") {
+                const div = document.createElement('div');
+                div.className = 'message my-message';
+                div.textContent = input.value;
+                chatBox.appendChild(div);
+                input.value = "";
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>
