@@ -5,57 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gup Shup Home</title>
     <style>
-        body { margin: 0; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; background-color: #ffffff; }
-        .top-header { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #ddd; justify-content: space-between; }
-        #userName { font-weight: bold; font-size: 22px; color: #ff4500; }
-        .content { flex: 1; padding: 20px; text-align: center; }
-        .nav-bar { display: flex; justify-content: space-around; padding: 15px; border-top: 1px solid #ddd; background: white; }
-        .nav-item { text-align: center; font-size: 14px; cursor: pointer; border: none; background: none; }
+        body { margin: 0; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; background-color: #f9f9f9; }
+        
+        /* Top Header Styling */
+        .top-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; background: white; border-bottom: 1px solid #ddd; }
+        
+        /* Search Bar Styling */
+        .search-container { flex-grow: 1; margin: 0 10px; }
+        .search-container input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 20px; }
+
+        /* Main Content Area */
+        .content { flex: 1; padding: 20px; text-align: center; overflow-y: auto; padding-bottom: 80px; }
+
+        /* Bottom Navigation Bar */
+        .nav-bar { display: flex; justify-content: space-around; padding: 10px; background: white; border-top: 1px solid #ddd; position: fixed; bottom: 0; width: 100%; }
+        .nav-item { border: none; background: none; cursor: pointer; text-align: center; font-size: 12px; }
     </style>
 </head>
 <body>
+
+    <!-- Header Section -->
     <div class="top-header">
-        <div id="userName">Loading...</div>
-        <div>💬</div>
+        <div id="userName" style="font-weight: bold; font-size: 20px;">उपयोगकर्ता</div>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search..." onkeypress="handleSearch(event)">
+        </div>
+        
+        <div onclick="alert('Message box clicked')">💬</div>
     </div>
+
+    <!-- Main Content -->
     <div class="content">
         <p>Welcome to Gup Shup!</p>
     </div>
+
+    <!-- Navigation Bar -->
     <div class="nav-bar">
-        <button class="nav-item">🏠<br>Home</button>
-        <button class="nav-item">⚡<br>Shorts</button>
-        <button class="nav-item">➕<br>Create</button>
-        <button class="nav-item">👤<br>Profile</button>
+        <button class="nav-item" onclick="location.href='home.html'">🏠<br>Home</button>
+        <button class="nav-item" onclick="alert('Shorts Clicked')">⚡<br>Shorts</button>
+        <button class="nav-item" onclick="alert('Create Clicked')">➕<br>Create</button>
+        <button class="nav-item" onclick="alert('Profile Clicked')">👤<br>Profile</button>
     </div>
-    <script type="module">
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        const firebaseConfig = {
-            apiKey: "AIzaSyAsyouU4O8rqDSJJDQjvxFNur7d65JH5pw",
-            authDomain: "gupshup-b77df.firebaseapp.com",
-            projectId: "gupshup-b77df",
-            storageBucket: "gupshup-b77df.firebasestorage.app",
-            messagingSenderId: "28255695821",
-            appId: "1:28255695821:web:02a4ce1d86e9bae5360a84",
-            measurementId: "G-S0RTEXJ8YT"
-        };
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                const docRef = doc(db, "users", user.uid);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    document.getElementById("userName").innerText = docSnap.data().name;
-                } else {
-                    document.getElementById("userName").innerText = "User";
-                }
-            } else {
-                window.location.href = "index.html";
+
+    <script>
+        // Search Function Logic
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                const query = document.getElementById('searchInput').value;
+                alert("Searching for: " + query);
             }
-        });
+        }
     </script>
 </body>
 </html>
