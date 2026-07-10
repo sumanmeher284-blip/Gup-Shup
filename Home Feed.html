@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nexusgram Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { margin: 0; background: linear-gradient(135deg, #e3f2fd, #b3e5fc); min-height: 100vh; font-family: sans-serif; color: #333; padding-bottom: 90px; }
+        
+        .header { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(15px); padding: 15px 20px; display: flex; justify-content: space-between; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.3); }
+
+        .story-bar { display: flex; padding: 15px; gap: 15px; overflow-x: auto; }
+        .story-circle { position: relative; width: 70px; height: 70px; border-radius: 50%; border: 3px solid #2196f3; background: rgba(255,255,255,0.4); flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .plus-icon { position: absolute; bottom: 0; right: 0; background: #2196f3; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
+
+        .post-card { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.5); border-radius: 30px; margin: 20px; padding: 20px; }
+        .post-image { width: 100%; height: 300px; background: rgba(255,255,255,0.3); border-radius: 20px; margin-bottom: 15px; }
+
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(20px); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.5); }
+        .nav-item { cursor: pointer; text-align: center; font-size: 12px; color: #555; }
+        .nav-item.active { color: #1976d2; font-weight: bold; }
+        .action-btn { cursor: pointer; font-size: 20px; transition: 0.2s; }
+        .action-btn:active { transform: scale(1.2); }
+    </style>
+</head>
+<body>
+  <div class="header">
+        <h2 style="margin:0; color:#1976d2;">Nexusgram</h2>
+        <div>
+            <i class="fas fa-plus" style="font-size:22px; cursor:pointer;" onclick="document.getElementById('fileInput').click()"></i>
+            <i class="far fa-paper-plane" style="font-size:22px; margin-left:15px; cursor:pointer;" onclick="window.location.href='messages.html'"></i>
+        </div>
+    </div>
+<!-- Story Bar -->
+<div class="story-bar" style="display:flex; gap:15px; padding:15px; overflow-x:auto; background:transparent;">
+    <div class="story-circle" style="min-width:70px; height:70px; border-radius:50%; border:3px solid #0095f6; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.3); backdrop-filter:blur(5px);">
+        <i class="fas fa-plus" style="color:#0095f6;"></i>
+    </div>
+    <div class="story-circle" style="min-width:70px; height:70px; border-radius:50%; border:3px solid #ff8501; background:#ddd;"></div>
+</div>
+
+<!-- Hidden File Input -->
+<input type="file" id="fileInput" accept="image/*" style="display:none;">
+
+     <div class="nav-bar">
+        <div onclick="window.location.href='Home Feed.html'"><i class="fas fa-home fa-lg"></i></div>
+        <div onclick="window.location.href='search.html'"><i class="fas fa-search fa-lg"></i></div>
+        <div onclick="window.location.href='reels.html'"><i class="fas fa-clapperboard fa-lg"></i></div>
+    <div onclick="console.log('Navigating to Rprofile.html'); window.location.href='profile.html';">
+    <i class="fas fa-user fa-lg"></i>
+</div>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKmCKZ-aTnSCokuMQ7Mz2mgRl7MuyfRPw",
+            authDomain: "nexusgram-1.firebaseapp.com",
+            projectId: "nexusgram-1",
+            storageBucket: "nexusgram-1.firebasestorage.app",
+            messagingSenderId: "861550995018",
+            appId: "1:861550995018:web:e246dbf13f091ac55de8b3",
+            measurementId: "G-7QR449644N"
+        };
+        initializeApp(firebaseConfig);
+    </script>
+</body>
+</html>
