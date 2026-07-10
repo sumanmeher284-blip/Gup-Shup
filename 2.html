@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Nexusgram</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            /* यह बैकग्राउंड आपके ओरिजिनल डिज़ाइन जैसा है */
+            background: linear-gradient(135deg, #c6eaf9 0%, #e0f7fa 100%);
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+
+        /* बैकग्राउंड में हल्का सा पैटर्न (वैकल्पिक, लुक बेहतर करने के लिए) */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: radial-gradient(#ffffff 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .signup-card {
+            /* यह है मुख्य 'कांच' का इफ़ेक्ट */
+            background: rgba(255, 255, 255, 0.2); /* हल्का सफेद और पारदर्शी */
+            backdrop-filter: blur(20px); /* पीछे की चीज़ों को धुंधला करना */
+            -webkit-backdrop-filter: blur(20px); /* सफारी के लिए */
+            
+            padding: 50px 40px;
+            border-radius: 35px;
+            width: 360px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15); /* गहरी परछाई */
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3); /* कांच की पतली बॉर्डर */
+            z-index: 1;
+        }
+
+        h2 { color: #1a2b3c; margin: 0 0 10px 0; font-size: 30px; font-weight: 700; }
+        p.subtitle { color: #4a5a6a; margin-bottom: 40px; font-size: 16px; }
+
+        input {
+            width: 100%;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+            /* इनपुट फील्ड्स को भी हल्का पारदर्शी रखा है */
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 18px;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder { color: #888; }
+        input:focus { outline: none; background: rgba(255, 255, 255, 0.9); border-color: #03a9f4; }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            background-color: #03a9f4; /* ओरिजिनल नीला रंग */
+            color: white;
+            border: none;
+            border-radius: 18px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover { background-color: #0288d1; transform: translateY(-2px); }
+        button:active { transform: translateY(0); }
+
+        .login-link {
+            margin-top: 30px;
+            font-size: 15px;
+            color: #555;
+        }
+
+        .login-link a { color: #03a9f4; text-decoration: none; font-weight: 600; transition: color 0.3s; }
+        .login-link a:hover { color: #01579b; }
+        
+        /* ब्राउज़र बार को हाइड करने के लिए मोबाइल जैसा फ्रेम (Optional) */
+        .phone-frame {
+            position: relative;
+            padding: 15px;
+            background: #111;
+            border-radius: 40px;
+            box-shadow: 0 0 0 10px #333;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="signup-card">
+        <h2>Create Account</h2>
+        <p class="subtitle">Join Nexusgram today!</p>
+
+        <input type="text" id="fullName" placeholder="Full Name">
+        <input type="email" id="email" placeholder="Email Address">
+        <input type="password" id="password" placeholder="Create Password">
+        
+        <button id="signUpBtn" class="btn">Sign Up</button>
+        
+        <p>OR</p>
+        
+        <button id="googleBtn" class="btn">Sign up with Google</button>
+
+        <div class="login-link">
+            Already have an account? <a href="index.html">Log In</a>
+        </div>
+    </div>
+<script type="module">
+  // Firebase SDKs इम्पॉर्ट करें
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    sendEmailVerification, 
+    GoogleAuthProvider, 
+    signInWithPopup 
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  // आपका Firebase कॉन्फ़िगरेशन
+  const firebaseConfig = {
+    apiKey: "AIzaSyCKmCKZ-aTnSCokuMQ7Mz2mgRl7MuyfRPw",
+    authDomain: "nexusgram-1.firebaseapp.com",
+    projectId: "nexusgram-1",
+    storageBucket: "nexusgram-1.firebasestorage.app",
+    messagingSenderId: "861550995018",
+    appId: "1:861550995018:web:e246dbf13f091ac55de8b3",
+    measurementId: "G-7QR449644N"
+  };
+
+  // Firebase इनिशियलाइज़ करें
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  // 1. ईमेल-पासवर्ड साइन-अप हैंडलर
+  document.getElementById('signUpBtn').addEventListener('click', () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    if (!email || !password) {
+      alert("Please fill in all the details.");
+      return;alert
+    }
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        
+        // वेरिफिकेशन ईमेल भेजें
+        sendEmailVerification(user)
+          .then(() => {
+            alert("Account created successfully! Please check your email and click on the verification link.");
+            window.location.href = 'verification.html';
+          });
+      })
+      .catch((error) => {
+        alert("Error: " + error.message);
+      });
+  });
+
+  // 2. Google साइन-अप हैंडलर
+  document.getElementById('googleBtn').addEventListener('click', () => {
+    signInWithPopup(auth, provider)
+      .then(() => {
+        window.location.href = 'home.html';
+      })
+      .catch((error) => {
+        alert("Google Error: " + error.message);
+      });
+  });
+</script>
+</body>
+</html>
