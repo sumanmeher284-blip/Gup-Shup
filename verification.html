@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify - NexusGram</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #c6eaf9, #e0f7fa);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .otp-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(25px);
+            padding: 40px 30px;
+            border-radius: 30px;
+            width: 320px; /* कार्ड थोड़ा कॉम्पैक्ट */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        h2 { color: #1a2b3c; margin-bottom: 8px; font-size: 24px; }
+        p { color: #556677; margin-bottom: 30px; font-size: 14px; }
+
+        .otp-inputs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .otp-inputs input {
+            width: 45px; /* बॉक्सेस का साइज़ छोटा किया */
+            height: 50px;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: #03a9f4;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .otp-inputs input:focus {
+            border-color: #03a9f4;
+            background: #ffffff;
+            box-shadow: 0 0 10px rgba(3, 169, 244, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #03a9f4;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { background-color: #0288d1; }
+
+        .resend-box {
+            margin-top: 25px;
+            font-size: 13px;
+            color: #666;
+        }
+        .resend-box a { color: #03a9f4; text-decoration: none; font-weight: 700; }
+    </style>
+</head>
+  <body>
+
+  <div class="otp-card">
+    <h2>Verification</h2>
+    <p>Enter the 5-digit code sent to your email.</p>
+    
+    <div class="otp-inputs" id="otp-inputs">
+      <input type="text" maxlength="1" class="otp-field" />
+      <input type="text" maxlength="1" class="otp-field" />
+      <input type="text" maxlength="1" class="otp-field" />
+      <input type="text" maxlength="1" class="otp-field" />
+      <input type="text" maxlength="1" class="otp-field" />
+    </div>
+
+    <div class="resend-box">
+      <p>Didn't receive the code? <a href="#" id="resendBtn">Resend Code</a></p>
+    </div>
+
+    <button id="verifyBtn">Verify Account</button>
+  </div>
+
+  <script type="module">
+    // 1. Firebase SDK Imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, reload } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+
+    // 2. Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCKmCKZ-aTnSCokuMQ7Mz2mgRl7MuyfRPw",
+      authDomain: "nexusgram-1.firebaseapp.com",
+      projectId: "nexusgram-1",
+      storageBucket: "nexusgram-1.firebasestorage.app",
+      messagingSenderId: "861550995018",
+      appId: "1:861550995018:web:e246dbf13f091ac55de8b3",
+      measurementId: "G-7QR449644N"
+    };
+
+    // 3. Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const analytics = getAnalytics(app);
+
+    // 4. Select Elements
+    const inputs = document.querySelectorAll('.otp-field');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const resendBtn = document.getElementById('resendBtn');
+
+    // 5. Focus Logic
+    inputs.forEach((input, index) => {
+      input.addEventListener('input', (e) => {
+        if (e.target.value.length === 1 && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+          inputs[index - 1].focus();
+        }
+      });
+    });
+
+    // 6. Verification Logic
+    verifyBtn.addEventListener('click', async () => {
+      let enteredOtp = "";
+      inputs.forEach(input => enteredOtp += input.value);
+
+      if (enteredOtp.length < 5) {
+        alert("Please enter the complete 5-digit code.");
+        return;
+      }
+
+      const user = auth.currentUser;
+      if (user) {
+        await reload(user);
+        if (user.emailVerified) {
+          alert("Account verified successfully!");
+          window.location.href = 'profile-setup.html';
+        } else {
+          alert("Email not verified yet. Please click the verification link in your inbox.");
+        }
+      } else {
+        alert("No user found. Please sign up first.");
+      }
+    });
+
+    // 7. Resend Logic
+    resendBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      alert("Verification link has been resent to your email.");
+    });
+  </script>
+  </body>
+</html>
