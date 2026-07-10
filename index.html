@@ -1,74 +1,100 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gup Shup Login</title>
+    <title>Nexusgram Login</title>
     <style>
-        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin: 0; background-color: #ffffff; height: 100vh; }
-        h1 { margin-top: 50px; margin-bottom: 30px; font-size: 24px; }
-        input { width: 90%; max-width: 350px; padding: 15px; margin: 8px 0; border: 1px solid #ccc; border-radius: 25px; box-sizing: border-box; }
-        .button-container { display: flex; justify-content: center; gap: 15px; margin-top: 20px; width: 100%; }
-        button { padding: 12px 30px; border: none; border-radius: 25px; background-color: #007bff; color: white; font-weight: bold; cursor: pointer; flex: 1; max-width: 150px; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* आपकी फोटो जैसा नीला बैकग्राउंड और सर्किट पैटर्न */
+            background-color: #d1f2f9;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4); /* हल्का ट्रांसपेरेंट */
+            backdrop-filter: blur(20px); /* ग्लास ब्लर इफेक्ट */
+            padding: 40px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            width: 320px;
+            text-align: center;
+        }
+
+        .logo { width: 80px; margin-bottom: 10px; }
+        h1 { font-size: 24px; font-weight: 700; margin-bottom: 20px; }
+        input {
+            width: 100%; padding: 15px; margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 12px; box-sizing: border-box;
+        }
+        .btn {
+            width: 100%; padding: 15px; background: #33b5e5;
+            color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer;
+        }
+        .footer { font-size: 14px; margin-top: 20px; }
+        .footer a { color: #33b5e5; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <h1>Welcome to Gup Shup</h1>
+  <div class="glass-card">
+    <img src="logo.png" alt="Logo" class="logo">
+    <h1>Login to Your Account</h1>
     
-    <input type="text" id="name" placeholder="Enter Your Name">
-    <input type="email" id="email" placeholder="Email">
+    <input type="text" id="email" placeholder="Email or Phone Number">
     <input type="password" id="password" placeholder="Password">
-    
-    <div class="button-container">
-        <button id="loginBtn">Login</button>
-        <button id="signupBtn">Sign Up</button>
+
+    <button class="btn" id="loginBtn">Log In</button>
+
+    <div class="footer">
+      <a href="Forgetpassword.html">Forgot Password?</a>
+      <p style="margin-top:10px;">
+        Don't have an account? <a href="sign up.html">Sign Up</a>
+      </p>
     </div>
+  </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAsyouU4O8rqDSJJDQjvxFNur7d65JH5pw",
-            authDomain: "gupshup-b77df.firebaseapp.com",
-            projectId: "gupshup-b77df",
-            storageBucket: "gupshup-b77df.firebasestorage.app",
-            messagingSenderId: "28255695821",
-            appId: "1:28255695821:web:02a4ce1d86e9bae5360a84",
-            measurementId: "G-S0RTEXJ8YT"
-        };
+    // Firebase Config (जो आपने दी थी)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCKmCKZ-aTnSCokuMQ7Mz2mgRl7MuyfRPw",
+      authDomain: "nexusgram-1.firebaseapp.com",
+      projectId: "nexusgram-1",
+      storageBucket: "nexusgram-1.firebasestorage.app",
+      messagingSenderId: "861550995018",
+      appId: "1:861550995018:web:e246dbf13f091ac55de8b3",
+      measurementId: "G-7QR449644N"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+    // Initialize
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const analytics = getAnalytics(app);
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
 
-        // Sign Up Logic
-        document.getElementById("signupBtn").addEventListener("click", async () => {
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            
-            try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                // डेटाबेस में नाम सेव करना
-                await setDoc(doc(db, "users", userCredential.user.uid), {
-                    name: name,
-                    email: email
-                });
-                alert("Account Created! You can now login.");
-            } catch (error) { alert("Error: " + error.message); }
-        });
-
-        // Login Logic
-        document.getElementById("loginBtn").addEventListener("click", () => {
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            signInWithEmailAndPassword(auth, email, password)
-                .then(() => { alert("Login Successful!"); window.location.href = "Home.html"; })
-                .catch((error) => alert("Error: " + error.message));
-        });
-    </script>
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("Login successful!");
+        window.location.href = 'home Feed.html'; // यहाँ अपने अगले पेज का नाम लिखें
+      } catch (error) {
+        alert("Error: " + error.message);
+      }
+    });
+  </script>
 </body>
 </html>
