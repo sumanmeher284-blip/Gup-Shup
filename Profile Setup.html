@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>Setup Profile - NexusGram</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #c6eaf9, #e0f7fa);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(25px);
+            padding: 40px 30px;
+            border-radius: 30px;
+            width: 320px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* प्रोफाइल पिक्चर का गोला */
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed #03a9f4;
+            cursor: pointer;
+            color: #03a9f4;
+            font-size: 14px;
+        }
+
+        h2 { color: #1a2b3c; margin-bottom: 20px; font-size: 22px; }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        textarea { height: 80px; resize: none; }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #03a9f4;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+  <div class="profile-card">
+    <div class="avatar">Upload Photo</div>
+    <h2>Complete Profile</h2>
+    
+    <input type="text" id="username" placeholder="Username">
+    <textarea id="bio" placeholder="Write a short bio..."></textarea>
+    
+    <button id="saveBtn">Save & Continue</button>
+  </div>
+  <script type="module">
+    // Firebase SDK Imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyCKmCKZ-aTnSCokuMQ7Mz2mgRl7MuyfRPw",
+      authDomain: "nexusgram-1.firebaseapp.com",
+      projectId: "nexusgram-1",
+      storageBucket: "nexusgram-1.firebasestorage.app",
+      messagingSenderId: "861550995018",
+      appId: "1:861550995018:web:e246dbf13f091ac55de8b3",
+      measurementId: "G-7QR449644N"
+    };
+    // Initialize
+    const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+    document.getElementById('saveBtn').addEventListener('click', async () => {
+  const username = document.getElementById('username').value;
+  const bio = document.getElementById('bio').value;
+  const user = auth.currentUser;
+
+  if (!username) {
+    alert("Please enter a username.");
+    return;
+  }
+  if (user) {
+    try {
+      await setDoc(doc(db, "users", user.uid), {
+        username: username,
+        bio: bio,
+        email: user.email
+      });
+      alert("Profile saved successfully!");
+      window.location.href = 'home Feed.html';
+    } catch (error) {
+      console.error("Error saving profile: ", error);
+      alert("Error: " + error.message);
+    }
+  } else {
+    alert("No user is logged in. Please log in first.");
+  }
+});
+  </script>
+</body>
+</html>
